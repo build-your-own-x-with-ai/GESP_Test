@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023年3月 GESP 图形化二级考试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #fafafa;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 45px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .exam-info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 30px 0 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .question {
+            background: #ffffff;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: visible;
+        }
+        
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+        
+        .question-text {
+            font-size: 17px;
+            margin-bottom: 18px;
+            line-height: 1.8;
+            color: #222;
+            font-weight: 500;
+        }
+        
+        .question img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .options {
+            margin-left: 0;
+            margin-top: 15px;
+            clear: both;
+        }
+        
+        .option {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .option:hover {
+            background: #f5f7ff;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+        }
+        
+        .option label {
+            cursor: pointer;
+            font-size: 16px;
+            color: #444;
+            flex: 1;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result {
+            display: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .score {
+            font-size: 56px;
+            font-weight: bold;
+            margin: 25px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .result p {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+        
+        .answer-review {
+            display: none;
+        }
+        
+        .answer-review.show {
+            display: block;
+        }
+        
+        .correct {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            border-left-color: #28a745 !important;
+        }
+        
+        .incorrect {
+            background: #ffe6e6 !important;
+            border-color: #ffcccc !important;
+            border-left-color: #dc3545 !important;
+        }
+        
+        .answer-label {
+            display: block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 15px;
+            width: fit-content;
+        }
+        
+        .answer-label.correct {
+            background: #28a745;
+            color: white;
+        }
+        
+        .answer-label.incorrect {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .correct-answer {
+            display: block;
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            border-radius: 6px;
+            color: #0c5460;
+            font-size: 15px;
+            font-weight: 500;
+            clear: both;
+        }
+
+        .programming-question {
+            background: #ffffff;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            border-left: 5px solid #764ba2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .programming-question .question-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #764ba2;
+        }
+
+        .prog-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .prog-section h4 {
+            color: #667eea;
+            font-size: 17px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .prog-section ul,
+        .prog-section ol {
+            margin-left: 25px;
+            line-height: 1.8;
+        }
+
+        .prog-section li {
+            margin: 10px 0;
+            color: #444;
+            font-size: 15px;
+        }
+
+        .prog-section p {
+            margin: 15px 0;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .prog-section img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .programming-question > img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2023年3月 GESP 图形化二级考试</h1>
+        <div class="exam-info">
+            <p>总分：100分 | 考试时间：60分钟</p>
+        </div>
+        
+        <form id="examForm">
+            <div class="section-title">一、单选题（每题 3 分，共 30 分）</div>
+            
+            <div class="question" data-answer="D" data-points="3">
+                <div class="question-text">1、以下存储器中的数据不会受到附近强磁场干扰的是（）。</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="A" id="q1a">
+                        <label for="q1a">A. 硬盘</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="B" id="q1b">
+                        <label for="q1b">B. U 盘</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="C" id="q1c">
+                        <label for="q1c">C. 内存</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="D" id="q1d">
+                        <label for="q1d">D. 光盘</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="C" data-points="3">
+                <div class="question-text">2、下列流程图，属于计算机的哪种程序结构？（）</div>
+                <img src="images/000020.jpg" alt="流程图">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="A" id="q2a">
+                        <label for="q2a">A. 顺序结构</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="B" id="q2b">
+                        <label for="q2b">B. 循环结构</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="C" id="q2c">
+                        <label for="q2c">C. 分支结构</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="D" id="q2d">
+                        <label for="q2d">D. 数据结构</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="D" data-points="3">
+                <div class="question-text">3、对于默认小猫角色，运行以下程序，小猫不可能说的是？（）</div>
+                <img src="images/000021.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="A" id="q3a">
+                        <label for="q3a">A. 45</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="B" id="q3b">
+                        <label for="q3b">B. 90</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="C" id="q3c">
+                        <label for="q3c">C. 75</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="D" id="q3d">
+                        <label for="q3d">D. 65</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="B" data-points="3">
+                <div class="question-text">4、运行以下程序，音量的大小为？（）</div>
+                <img src="images/000023.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" value="A" id="q4a">
+                        <label for="q4a">A. 84</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="B" id="q4b">
+                        <label for="q4b">B. 88</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="C" id="q4c">
+                        <label for="q4c">C. 83</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="D" id="q4d">
+                        <label for="q4d">D. 92</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="C" data-points="3">
+                <div class="question-text">5、对于默认小猫角色，运行以下程序，角色有什么反应？（）</div>
+                <img src="images/000024.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" value="A" id="q5a">
+                        <label for="q5a">A. 只要按下 d 键，小猫就能向左走</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="B" id="q5b">
+                        <label for="q5b">B. 要同时按下 d 键和 -> 键，小猫才能右走</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="C" id="q5c">
+                        <label for="q5c">C. 只要按 -> 键，小猫就能向右走</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="D" id="q5d">
+                        <label for="q5d">D. 不按任何键，小猫就能向右走</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="D" data-points="3">
+                <div class="question-text">6、对于默认小猫角色，运行以下程序，说法错误的是？（）</div>
+                <img src="images/000026.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="A" id="q6a">
+                        <label for="q6a">A. 不按下鼠标键，小猫会随机移动</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="B" id="q6b">
+                        <label for="q6b">B. 不按下鼠标键，小猫会逐渐变大</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="C" id="q6c">
+                        <label for="q6c">C. 不按下鼠标键，小猫会切换造型</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="D" id="q6d">
+                        <label for="q6d">D. 当按下鼠标键，小猫一直移动</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="C" data-points="3">
+                <div class="question-text">7、运行以下程序后，画出的图形是？（）</div>
+                <img src="images/000028.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="A" id="q7a">
+                        <label for="q7a">A. 正三角形</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="B" id="q7b">
+                        <label for="q7b">B. 正五边形</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="C" id="q7c">
+                        <label for="q7c">C. 正六边形</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="D" id="q7d">
+                        <label for="q7d">D. 正十边形</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="B" data-points="3">
+                <div class="question-text">8、运行以下程序，表述错误的是？（）</div>
+                <img src="images/000030.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="A" id="q8a">
+                        <label for="q8a">A. 角色会一直水平运动</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="B" id="q8b">
+                        <label for="q8b">B. 角色运动一会就停止</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="C" id="q8c">
+                        <label for="q8c">C. 角色广播消息，自己接收这个消息</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="D" id="q8d">
+                        <label for="q8d">D. 角色的位置是不确定的</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="C" data-points="3">
+                <div class="question-text">9、运行以下程序，变量 X 的值为？（）</div>
+                <img src="images/000032.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" value="A" id="q9a">
+                        <label for="q9a">A. 25</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="B" id="q9b">
+                        <label for="q9b">B. 10</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="C" id="q9c">
+                        <label for="q9c">C. 11</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="D" id="q9d">
+                        <label for="q9d">D. 50</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="A" data-points="3">
+                <div class="question-text">10、对于默认小猫角色，运行以下程序，舞台上会显示几只小猫？（）</div>
+                <img src="images/000033.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" value="A" id="q10a">
+                        <label for="q10a">A. 1</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="B" id="q10b">
+                        <label for="q10b">B. 3</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="C" id="q10c">
+                        <label for="q10c">C. 5</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="D" id="q10d">
+                        <label for="q10d">D. 7</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">二、判断题（每题 4 分，共 20 分）</div>
+
+            <div class="question" data-answer="false" data-points="4">
+                <div class="question-text">1. 明明和笑笑在"小庙会"上分别抽到一个 4GB 和 4096MB 的 U 盘，容量大的盘是笑笑的。</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" value="true" id="q11t">
+                        <label for="q11t">✓ 正确</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="false" id="q11f">
+                        <label for="q11f">✗ 错误</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="true" data-points="4">
+                <div class="question-text">2. 运行以下程序，当按下空格键时，角色停止移动。</div>
+                <img src="images/000035.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q12" value="true" id="q12t">
+                        <label for="q12t">✓ 正确</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="false" id="q12f">
+                        <label for="q12f">✗ 错误</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="true" data-points="4">
+                <div class="question-text">3. 以下积木的运行结果为 0。</div>
+                <img src="images/000037.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q13" value="true" id="q13t">
+                        <label for="q13t">✓ 正确</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="false" id="q13f">
+                        <label for="q13f">✗ 错误</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="true" data-points="4">
+                <div class="question-text">4. 运行以下程序，最后角色面向右。</div>
+                <img src="images/000038.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q14" value="true" id="q14t">
+                        <label for="q14t">✓ 正确</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="false" id="q14f">
+                        <label for="q14f">✗ 错误</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question" data-answer="false" data-points="4">
+                <div class="question-text">5. 默认小猫角色，运行以下程序，小猫和克隆体一起向右移动，直到碰到舞台边缘。</div>
+                <img src="images/000002.jpg" alt="程序代码">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q15" value="true" id="q15t">
+                        <label for="q15t">✓ 正确</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="false" id="q15f">
+                        <label for="q15f">✗ 错误</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">三、编程题（每题 25 分，共 50 分）</div>
+
+            <div class="programming-question">
+                <div class="question-text"><strong>1、快乐的时光</strong></div>
+                
+                <div class="prog-section">
+                    <h4>准备工作：</h4>
+                    <img src="images/000004.jpg" alt="准备工作示意图">
+                    <ul>
+                        <li>角色：默认小猫角色，添加角色 Monkey。</li>
+                        <li>背景：添加背景 Forest。</li>
+                    </ul>
+                </div>
+
+                <div class="prog-section">
+                    <h4>功能实现：</h4>
+                    <ol>
+                        <li>小猫与小猴的初始位置如图所示，小猫（X = -100，Y = -90），小猴（X = 100，Y = 90）；</li>
+                        <li>小猫和小猴一起跳跃若干次（跳跃的次数为 5 至 10 的随机数），每次跳起的高度为 50，然后回到原位；</li>
+                        <li>小猫和小猴停止跳跃后，小猫说"一起玩儿真高兴"。</li>
+                    </ol>
+                </div>
+
+                <div class="prog-section">
+                    <h4>评分标准：</h4>
+                    <ol>
+                        <li>小猫与小猴的初始位置为小猫（X = -100，Y = -90），小猴（X = 100，Y = 90）；（5 分）</li>
+                        <li>利用广播并等待的方式向小猫和小猴发送跳跃的消息；（5 分）</li>
+                        <li>小猫和小猴一起跳跃若干次（跳跃的次数为 5 至 10 的随机数），每次跳起的高度为 50，然后回到原位；（10 分）</li>
+                        <li>小猫和小猴停止跳跃后，小猫说"一起玩儿真高兴"；（5 分）</li>
+                    </ol>
+                </div>
+
+                <div class="prog-section">
+                    <h4>参考程序：</h4>
+                    <p><strong>角色：小猫（方法一）</strong></p>
+                    <img src="images/000006.jpg" alt="小猫程序方法一">
+                    <p><strong>角色：小猫（方法二）</strong></p>
+                    <img src="images/000008.jpg" alt="小猫程序方法二">
+                    <p><strong>角色：小猴（方法一）</strong></p>
+                    <img src="images/000009.jpg" alt="小猴程序方法一">
+                    <p><strong>角色：小猴（方法二）</strong></p>
+                    <img src="images/000011.jpg" alt="小猴程序方法二">
+                </div>
+            </div>
+
+            <div class="programming-question">
+                <div class="question-text"><strong>2、绘制图形</strong></div>
+                
+                <img src="images/000012.jpg" alt="绘制图形示意图">
+
+                <div class="prog-section">
+                    <h4>准备工作：</h4>
+                    <ul>
+                        <li>隐藏默认角色小猫。</li>
+                    </ul>
+                </div>
+
+                <div class="prog-section">
+                    <h4>功能实现：</h4>
+                    <ol>
+                        <li>小猫的初始位置为（x=0, y=0），如上图所示；</li>
+                        <li>设置画笔粗细为 3，颜色为红色；</li>
+                        <li>通过次数循环画出所示图形，每条线段的长度为 80；</li>
+                    </ol>
+                </div>
+
+                <div class="prog-section">
+                    <h4>评分标准：</h4>
+                    <ol>
+                        <li>小猫的初始位置为（x=0, y=0），面向 90 度方向；（5 分）</li>
+                        <li>设置画笔粗细为 3，颜色为红色；（5 分）</li>
+                        <li>通过次数循环画出所示图形，每条线段的长度为 80；（15 分）</li>
+                    </ol>
+                </div>
+
+                <div class="prog-section">
+                    <h4>参考程序：</h4>
+                    <p><strong>方法一：</strong></p>
+                    <img src="images/000014.jpg" alt="绘制图形方法一">
+                    <p><strong>方法二：</strong></p>
+                    <img src="images/000015.jpg" alt="绘制图形方法二">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">提交试卷</button>
+        </form>
+
+        <div class="result" id="result">
+            <h2>考试结果</h2>
+            <div class="score" id="scoreDisplay"></div>
+            <p id="resultMessage"></p>
+        </div>
+
+        <div class="answer-review" id="answerReview"></div>
+    </div>
+
+    <script>
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let totalScore = 0;
+            let maxScore = 100;
+            const questions = document.querySelectorAll('.question');
+            
+            questions.forEach((question, index) => {
+                const correctAnswer = question.getAttribute('data-answer');
+                const points = parseInt(question.getAttribute('data-points'));
+                const questionNum = index + 1;
+                const selectedInput = question.querySelector('input[type="radio"]:checked');
+                
+                if (selectedInput) {
+                    const userAnswer = selectedInput.value;
+                    
+                    if (userAnswer === correctAnswer) {
+                        totalScore += points;
+                        question.classList.add('correct');
+                        question.classList.remove('incorrect');
+                        
+                        const label = document.createElement('div');
+                        label.className = 'answer-label correct';
+                        label.textContent = '✓ 正确 (+' + points + '分)';
+                        question.appendChild(label);
+                    } else {
+                        question.classList.add('incorrect');
+                        question.classList.remove('correct');
+                        
+                        const label = document.createElement('div');
+                        label.className = 'answer-label incorrect';
+                        label.textContent = '✗ 错误';
+                        question.appendChild(label);
+                        
+                        const correctAnswerDiv = document.createElement('div');
+                        correctAnswerDiv.className = 'correct-answer';
+                        correctAnswerDiv.textContent = '正确答案：' + correctAnswer;
+                        question.appendChild(correctAnswerDiv);
+                    }
+                } else {
+                    question.classList.add('incorrect');
+                    
+                    const label = document.createElement('div');
+                    label.className = 'answer-label incorrect';
+                    label.textContent = '✗ 未作答';
+                    question.appendChild(label);
+                    
+                    const correctAnswerDiv = document.createElement('div');
+                    correctAnswerDiv.className = 'correct-answer';
+                    correctAnswerDiv.textContent = '正确答案：' + correctAnswer;
+                    question.appendChild(correctAnswerDiv);
+                }
+            });
+            
+            // 显示结果
+            const resultDiv = document.getElementById('result');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            scoreDisplay.textContent = totalScore + ' / ' + maxScore + ' 分';
+            
+            let message = '';
+            const percentage = (totalScore / maxScore) * 100;
+            if (percentage >= 90) {
+                message = '优秀！继续保持！🎉';
+            } else if (percentage >= 80) {
+                message = '良好！再接再厉！👍';
+            } else if (percentage >= 60) {
+                message = '及格！还需努力！💪';
+            } else {
+                message = '需要加强学习哦！📚';
+            }
+            
+            resultMessage.textContent = message;
+            resultDiv.classList.add('show');
+            
+            // 滚动到结果
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // 禁用所有输入
+            const allInputs = document.querySelectorAll('input[type="radio"]');
+            allInputs.forEach(input => input.disabled = true);
+            
+            // 隐藏提交按钮
+            e.target.querySelector('.submit-btn').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

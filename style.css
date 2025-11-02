@@ -1,0 +1,138 @@
+.calibre {
+    display: block;
+    font-size: 1em;
+    margin-bottom: 0;
+    margin-left: 5pt;
+    margin-right: 5pt;
+    margin-top: 0;
+    padding-left: 0;
+    padding-right: 0
+    }
+.calibre1 {
+    display: block;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1em
+    }
+.calibre2 {
+    height: 64px;
+    width: 170px
+    }
+.calibre3 {
+    display: block;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1em;
+    text-align: center
+    }
+.calibre4 {
+    font-size: 1.29167em;
+    line-height: 1.2
+    }
+.calibre5 {
+    display: block;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1em;
+    text-indent: 1em
+    }
+.calibre6 {
+    font-size: 0.83333em
+    }
+.calibre7 {
+    height: 236px;
+    width: 265px
+    }
+.calibre8 {
+    height: 167px;
+    width: 546px
+    }
+.calibre9 {
+    height: 211px;
+    width: 464px
+    }
+.calibre10 {
+    height: 293px;
+    width: 482px
+    }
+.calibre11 {
+    height: 330px;
+    width: 300px
+    }
+.calibre12 {
+    height: 374px;
+    width: 264px
+    }
+.calibre13 {
+    display: block;
+    page-break-after: always
+    }
+.calibre14 {
+    height: 343px;
+    width: 572px
+    }
+.calibre15 {
+    height: 196px;
+    width: 384px
+    }
+.calibre16 {
+    height: 257px;
+    width: 266px
+    }
+.calibre17 {
+    height: 310px;
+    width: 381px
+    }
+.calibre18 {
+    height: 96px;
+    width: 543px
+    }
+.calibre19 {
+    height: 252px;
+    width: 605px
+    }
+.calibre20 {
+    height: 232px;
+    width: 567px
+    }
+.calibre21 {
+    height: 630px;
+    width: 545px
+    }
+.calibre22 {
+    height: 364px;
+    width: 648px
+    }
+.calibre23 {
+    height: 439px;
+    width: 648px
+    }
+.calibre24 {
+    height: 344px;
+    width: 648px
+    }
+.calibre25 {
+    height: 422px;
+    width: 648px
+    }
+.calibre26 {
+    height: 320px;
+    width: 386px
+    }
+.calibre27 {
+    height: 770px;
+    width: 272px
+    }
+.calibre28 {
+    height: 727px;
+    width: 262px
+    }
+
+@page {
+    margin-bottom: 5pt;
+    margin-top: 5pt
+    }
+
